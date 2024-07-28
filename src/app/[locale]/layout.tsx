@@ -1,11 +1,9 @@
 import '@/styles/global.css';
-
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
-
-import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   icons: [
@@ -30,6 +28,8 @@ export const metadata: Metadata = {
       url: '/favicon.ico',
     },
   ],
+  title: 'Agencia Adquisición',
+  description: 'Transforma tu negocio con estrategias de crecimiento efectivas.',
 };
 
 export function generateStaticParams() {
@@ -42,19 +42,14 @@ export default function RootLayout(props: {
 }) {
   unstable_setRequestLocale(props.params.locale);
 
-  // Using internationalization in Client Components
   const messages = useMessages();
 
   return (
     <html lang={props.params.locale}>
-      <body>
-        <NextIntlClientProvider
-          locale={props.params.locale}
-          messages={messages}
-        >
-          {props.children}
-
-          <DemoBadge />
+      <body className="flex flex-col min-h-screen bg-white text-gray-800">
+        <NextIntlClientProvider locale={props.params.locale} messages={messages}>
+          <main className="flex-grow">{props.children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
